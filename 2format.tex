@@ -3,6 +3,8 @@
 This chapter describes the framing and formatting standard for messages
 transmitted using DCP.
 
+\newpage
+
 
 
 \section{Framing}
@@ -68,6 +70,20 @@ multiple values in a single stanza; an implementation MUST send multiple values
 by specifying the key multiple times with a single value each.
 
 If a key has no value, the value MUST be set to '*'.
+\end{description}
+
+
+\subsection{Message spanning/splitting}
+\subsectionrule
+
+If a message is too large to fit in a single frame, the message may be split
+into multiple frames.  If this is necessary, the following keys MUST be present
+in each frame of the split message:
+
+\begin{description}
+\item[\ttfamily multipart] Always \texttt{True}.
+\item[\ttfamily part] The 1-indexed number of the current message in the span.
+\item[\ttfamily total] The total number of messages comprising the full message.
 \end{description}
 
 
