@@ -1,0 +1,123 @@
+\chapter{Message framing and formatting}
+\label{chap:format}
+This chapter describes the framing and formatting standard for messages
+transmitted using DCP.
+
+
+
+\section{Framing}
+\sectionrule
+Messages are terminated by two 'NULL' bytes, or \nul\nul.  Fields inside
+messages are delimited by a single 'NULL' byte, or \nul.
+
+A message sent over DCP must follow the following format:
+
+\texttt{
+\begin{tabular}{|l|l|l|l|l|l|}
+  \hline
+  length  & source  & dest  & command  & (keys/values)  & terminator \\
+  \hline
+\end{tabular}
+}
+
+% +---------------------------------------------------------------------+
+% | length  | source  | dest  | command  | (keys/values)  | terminator  |
+% +---------------------------------------------------------------------+
+
+\begin{description}
+\item[\ttfamily length] \hfill \\
+A message always starts with its length, which MUST NOT include the length of
+the length field and the terminating \nul.  The length MUST be sent as a big-
+endian short.  The maximum length of a message is 1370 bytes.  Any DCP
+implementation that receives a message with a length of more than 1370 bytes
+MUST reject the message as invalid. The server SHOULD send an error message back
+to the object that sent the message.  The server MUST NOT send any portion of
+the original packet back to the client.  The server MUST disconnect the client
+after sending the error message.
+
+\item[\ttfamily source] \hfill \\
+The source of this message.  Clients MAY use '*' to refer to themselves.
+Servers MUST NOT use '*' in any message they transmit.
+
+\item[\ttfamily dest] \hfill \\
+The destination of this message.  Commands that do not require a destination
+ignore this field and implementations SHOULD use '*'.
+
+\item[\ttfamily command] \hfill \\
+The command this message is representing.
+
+\item[\ttfamily (keys/values)] \hfill \\
+Any parameters of the command must be encoded in key/value format, as follows:
+
+
+\texttt{
+\begin{tabular}{|l|l|l|l|l|}
+  %\hline
+  key & value ( & key & value \ldots )
+  %\hline
+\end{tabular}
+}
+
+% +-------------------------------------------------------------+
+% | key  | terminator (\0)  | value  | terminator (\0)  | [...] |
+% +-------------------------------------------------------------+
+
+Keys and values are separated by \nul.  Keys may be specified more than once,
+when they have multiple values.  There is no protocol support for including
+multiple values in a single stanza; an implementation MUST send multiple values
+by specifying the key multiple times with a single value each.
+
+If a key has no value, the value MUST be set to '*'.
+\end{description}
+
+
+
+\section{Naming standards}
+\sectionrule
+For \texttt{source}, \texttt{dest}, \texttt{target}, and other fields that
+require the name of an entity, the following naming standards apply:
+
+\begin{description}
+\item[Groups] \hfill \\
+A group always begins with the octothorpe character, or \#.
+
+\item[Servers] \hfill \\
+A server always begins with the equal sign character, or =.
+
+\item[Foreigns] \hfill \\
+A 'foreign' is a user or group from a remote federated network, and always
+begins with the ampersand character, or \&.
+
+\item[Rosters] \hfill \\
+A roster always begins with the exclamation point character, or !.
+
+\item[Users] \hfill \\
+A user is any name that does not begin with \#, =, \&, or !.
+
+\item[Other reserved characters] \hfill \\
+The * ? and , symbols are reserved.  They may not appear anywhere in any name.
+
+\end{description}
+
+Clients MUST NOT attempt to register or sign in with a handle beginning with the
+reserved characters.  Servers MUST refuse to register or sign in a client
+attempting to use a handle beginning with the reserved characters.
+
+
+
+\section{Compression}
+\sectionrule
+
+All streams, excepting option negotiation on client connection, MUST be
+compressed.  The server MUST support at least zlib compression.  The server MAY
+support other compression methods and expose them in the \texttt{options} key
+upon client connection.  Clients MUST only use compression methods supported by
+the server, which servers provide in the \texttt{options} key upon connection.
+
+
+
+\section{Encryption}
+\sectionrule
+
+All streams MUST be encrypted via the Transport Layer Security Protocol (TLS).
+\cite{TLS}

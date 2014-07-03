@@ -1,0 +1,42 @@
+\chapter{Introduction}
+\label{chap:intro}
+This chapter introduces the Domain Chat Protocol and defines document conventions.
+
+
+\section{Purpose}
+\sectionrule
+This document is intended to describe the overall design and on-wire protocol
+for Domain Chat Protocol, or DCP.  DCP is designed to be a modern, open protocol
+for both group chats and one-to-one messaging.
+
+Unlike IRC\cite{rfc1459}, DCP is designed to centralise management for disparate
+chat networks and unify communities together, making communication easier.  DCP
+is designed to streamline community administration, and allow multiple networks
+to relay the same community messages without needing additional infrastructure.
+
+Shortcomings in multiple instant messaging (IM) protocols, including both
+proprietary protocols such as OSCAR and Skype, and openly developed protocols
+such as XMPP\cite{xmpp}, plague modern instant messaging.  DCP is designed to
+overcome these flaws, enabling simple, rich messaging from any connected device,
+including desktop and notebook computers; tablets; phones; game consoles; and
+any other device that supports TCP.
+
+
+\section{Document conventions}
+\sectionrule
+This document uses formatted text in the following manners:
+
+\begin{itemize}
+\item
+\texttt{Monospaced text} denotes a literal protocol command or typed input.
+
+\item
+\textit{Italicised text} denotes placeholder text that shall be changed to an 
+appropriate value.
+
+\item
+\textbf{Bold-face text} denotes the definition of a new term.
+\end{itemize}
+
+The key words "MUST", "MUST NOT", "SHOULD", "SHOULD NOT", "MAY", and "OPTIONAL"
+in this document are to be interpreted as described in RFC 2119\cite{rfc2119}.

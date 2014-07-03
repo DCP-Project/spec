@@ -1,0 +1,115 @@
+% !TEX TS-program = pdflatex
+% !TEX encoding = UTF-8 Unicode
+
+\documentclass[11pt,letterpaper,twoside,english]{book}
+\usepackage[utf8]{inputenc}
+\usepackage{babel}
+
+%%% PAGE DIMENSIONS
+\usepackage[papersize={8.5in,11in}]{geometry}
+\geometry{inner=0.5in,outer=1in}
+\geometry{top=1in,bottom=1in}
+\geometry{bindingoffset=0.25in}
+
+%%% PACKAGES
+\usepackage{booktabs} % for much better looking tables
+\usepackage{paralist} % lists (eg. enumerate/itemize)
+\usepackage[usenames,dvipsnames]{color} % allow us to use subtle colour to highlight certain portions of text
+\usepackage{subfig} % subfigure support
+\usepackage[pdfauthor={E. Myers, A. Wilcox},
+pdftitle={Domain Chat Protocol: Specification},
+pdftex,hidelinks]{hyperref} % hyperlink refs in PDFs and Document Info
+\usepackage{microtype} % 22 Jul 2010 04:36 UTC <Arvid> Andrew, you need to use the microtype package for OPTICALLY STRAIGHT MARGINS!
+
+%%% SECTION TITLE APPEARANCE
+\usepackage{sectsty}
+\allsectionsfont{\fontfamily{ptm}\mdseries\upshape}
+\sectionfont{\newpage\LARGE\centering\color{Fuchsia}}
+\subsectionfont{\Large\color{Fuchsia}}
+\subsubsectionfont{\large\bfseries}
+
+%%% ToC (table of contents) APPEARANCE
+\usepackage[nottoc,notlof,notlot]{tocbibind} % Put the bibliography in the ToC
+\usepackage[titles,subfigure]{tocloft} % Alter the style of the Table of Contents
+
+%%% FONT APPEARANCE
+\renewcommand{\rmdefault}{ppl}
+\renewcommand{\sfdefault}{jcl}
+\renewcommand{\ttdefault}{pcr}
+
+\usepackage{fancyhdr} % Much nicer header/footer
+
+%%% But it is defined after the title.  The title does NOT need fancyhdr...It makes it ugly...
+
+\title{Specification \\ for \textsc{Domain Chat Protocol} (DCP)}
+\author{E. Myers \and A. Wilcox}
+\date{2014-06-27 \textemdash Revision 1}
+
+\begin{document}
+\frontmatter
+\maketitle
+\newpage
+
+%%% HEADERS & FOOTERS
+\pagestyle{fancy}
+\fancyhf{}
+\fancyhead[LE,RO]{\textsc{DCP}: Protocol Specification}
+\fancyhead[RE,LO]{\thepage}
+\fancyfoot[LE,RO]{2014-06-24 \textemdash Revision 1}
+\fancyfoot[RE,LO]{\textit{Draft}}
+
+\setlength{\headheight}{14.0pt}
+\setlength{\parskip}{13.5pt}
+
+\fancypagestyle{plain}{\fancyhf{}\fancyhead[LE,RO]{\textsc{DCP}: Protocol Specification}\fancyhead[RE,LO]{\thepage}}
+
+\renewcommand{\sectionrule}{{\vspace{-16pt}\rule[16pt]{\linewidth}{1pt}\vspace{-16pt}\par}}
+\newcommand{\subsectionrule}{{\vspace{-14pt}\rule[11pt]{\linewidth}{0.5pt}\vspace{-11pt}\\}}
+
+\newcommand{\nul}{\textbackslash0}
+
+
+%%%%%%%%%%%%%%%%%%%%%
+%%% Front matter. %%%
+%%%%%%%%%%%%%%%%%%%%%
+
+%%% Revision History
+
+\include{0revisions}
+
+
+%%% ToC
+
+\tableofcontents
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%
+%%% Document content. %%%
+%%%%%%%%%%%%%%%%%%%%%%%%%
+\mainmatter
+
+\include{1intro}
+\include{2format}
+\include{3users}
+\include{4groups}
+\include{5acls}
+\include{6roster}
+\include{7extensions}
+\include{8errors}
+
+
+
+%%%%%%%%%%%%%%%%%%%%
+%%% Back matter. %%%
+%%%%%%%%%%%%%%%%%%%%
+\backmatter
+
+\include{a-best}
+
+%%% References / Biblio
+
+\bibliographystyle{plain}
+\bibliography{cite}
+
+
+\end{document}

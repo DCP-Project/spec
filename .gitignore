@@ -1,0 +1,18 @@
+# aux files TeX generates.
+*.aux
+*.out
+*.log
+*.blg
+
+# misc generated files
+*.bbl
+*.toc
+
+# actual output
+*.pdf
+
+# the editors I use
+*.kate-swp
+*~
+
+

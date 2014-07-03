@@ -1,0 +1,87 @@
+\chapter{Access control lists (ACLs)}
+\label{chap:acls}
+
+This chapter introduces access control lists and the DCP permissions model.
+
+
+
+\section{Introduction to ACLs and permissions}
+\sectionrule
+
+An \textbf{access control list}, or \textbf{ACL}, is a list of permissions
+granted to objects on other objects.  An object may be a user, group, roster, or
+server.  Each object type defines its own set of \textbf{permission}s, which
+specifies an operation or manipulation of some sort that can be done to the
+object by another object.
+
+For each permission applicable to an object, the object's ACL contains two
+lists: \texttt{set}, and \texttt{unset}.  Any object in the \texttt{set} list
+has the permission for the specified object.  Any object in the \texttt{unset}
+list is explictly denied that permission for the specified object.  Objects not
+appearing in either list are members of a pseudo-list, \texttt{unspecified}.
+They may inherit permission allowals or rejections from a group, or by default.
+
+
+
+\section{ACL format}
+\sectionrule
+\label{acl:format}
+
+\begin{tabular}{l|l|l|l|l|l}
+  \hline
+  target & source & permission ( & target & source & permission \ldots ) \\
+  \hline
+\end{tabular}
+
+\begin{description}
+  \item[target] \hfill \\
+  The ACL's target.
+  
+  \item[source] \hfill \\
+  The object that holds the following permission.
+  
+  \item[permission] \hfill \\
+  The permission that the preceding object holds.
+\end{description}
+
+
+
+\section{Retrieving an ACL}
+\sectionrule
+
+A client may request an ACL for an object using the \texttt{ACL-GET} command, as
+specified:
+
+\begin{tabular}{l|l|l|l}
+  \hline
+  Key           & Format (Req'd)& Description                           & Example \\
+  \hline
+  \hline
+  \texttt{dest} & Object (Y)    & The object to retrieve an ACL for.    & \#Sporks \\
+  \hline
+\end{tabular}
+
+
+The server's reply will be in the format specified in section \ref{acl:format}.
+
+
+
+\section{Granting or removing a permission}
+\sectionrule
+
+A client may grant or remove a permission to an object for any object that it
+has the authority to control permissions over.  The client must use the
+\texttt{ACL-SET} command, as specified:
+
+\begin{tabular}{l|l|l|l}
+  \hline
+  Key                   & Format (Req'd)& Description                                   & Example \\
+  \hline
+  \hline
+  \texttt{dest}         & Object (Y)    & The object to set the permission for.         & \#Sporks \\
+  \texttt{to}           & Object (Y)    & The object to grant/remove the permission to. & Pwyll@foxkit.us \\
+  \texttt{permission}   & Permission (Y)& The permission to grant or remove.            & group.op \\
+  \texttt{granted}      & Boolean (N)   & Whether to grant or remove; default: True.    & True \\
+  \texttt{notes}        & String (N)    & Why the user is being granted the permission. & He's a good op. \\
+  \hline
+\end{tabular}

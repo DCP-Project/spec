@@ -1,0 +1,85 @@
+\chapter{Users}
+\label{chap:users}
+
+This chapter describes what a user is, how client connections are established
+and handled, user and client management, and other related features of DCP.
+
+
+
+\section{What is a user?}
+\sectionrule
+
+In DCP, a \textbf{user} is a unique entity that connects to DCP and uses it for
+communication.  This means living persons and automated scripts that provide
+information on request.
+
+Unlike protocols such as IRC\cite{rfc1459}, which provide for a special class of
+user for "network services" (such as ChanServ/NickServ/OperServ), DCP requires
+all management services to be part of a server, via the core protocol or via
+extensions\ref{chap:extensions}.  Therefore, there are no "pseudo-users" that
+have special powers or extend the server.
+
+Also, unlike protocols such as IRC or XMPP\cite{xmpp}, which provide for a
+special class of user for management of a network, typically called "operators"
+or "opers", DCP does not make such a distinction; management of every facet of
+the network, and the global internetwork, is handled by any user that has the
+respective permission granted to them.  This facilitates easier management of
+the operator roster and finer-grained controls as desired by a group, network,
+or the internetwork.
+
+
+
+\section{What is a client?}
+\sectionrule
+
+A \textbf{client} is a device that a user uses to connect to DCP.  A user may
+have any number of clients connected at the same time; DCP treats every client
+as the same.  Unlike XMPP's resources, clients are all treated equal; they all
+receive every message sent to the user.  However, clients may have separate
+metadata and settings.  Servers MUST relay one client's message to all other
+connected clients for the user, so that these clients have context for replies.
+
+A user may blacklist a client, by either its client name property, or its client
+software property.  Clients matching this blacklist will not be allowed to
+connect to DCP as that user.
+
+
+
+\section{Connection management}
+\sectionrule
+
+When a client wishes to connect to DCP, it sends a \texttt{SIGNON} message, as
+specified:
+
+\begin{tabular}{l|l|l|l}
+  \hline
+  Key & Format (Req'd) & Description & Example \\
+  \hline
+  \hline
+  \texttt{handle}       & String (Y) & The user's ID.           & Pwyll@foxkit.us \\
+  \texttt{password}     & String (Y) & The user's password.     & w3lsh1e \\
+  \texttt{client-name}  & String (Y) & The name of this client. & laptop \\
+  \texttt{client-ver}   & String (Y) & The version of this client. & Minnow 1.0.7 Unix \\
+  \texttt{options}      & CSV    (N) & Options.                 & \\
+  \hline
+\end{tabular}
+
+When a server receives a \texttt{SIGNON} message, it MUST perform the following
+operations:
+
+\begin{enumerate}
+  \item{Ensure the connecting IP is not on the global DCP blacklist.}
+  \item{Ensure the connecting IP is not on the network's blacklist.}
+  \item{Ensure the connecting IP is not on the server's blacklist.}
+  \item{Prevent flooding by ensuring a limited number of connections from this
+  IP in a specified time frame.  Server and network operators MUST be able to
+  configure both the number of connections and the time frame.}
+  \item{Ensure the handle is not on the network's blacklist.}
+  \item{Ensure the handle is not on the server's blacklist.}
+  \item{Ensure the client name (\texttt{client-name}) and client version
+  (\texttt{client-ver}) are not blacklisted by the user.}
+  \item{Ensure the handle and password authenticate correctly.}
+\end{enumerate}
+
+User authentication is implementation-specific and is not covered by this
+specification.
