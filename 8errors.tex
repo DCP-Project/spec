@@ -1,3 +1,31 @@
 \chapter{Errors}
 \label{chap:errors}
 
+This chapter describes possible error conditions relating to DCP, and the
+\texttt{error} command.
+
+\newpage
+
+
+
+\section{The \texttt{error} command}
+\sectionrule
+
+When an error is encountered while processing a client's command, a server MUST
+reply with an \texttt{error} command, as specified:
+
+\begin{tabular}{l|l|l|l}
+  \hline
+  Key & Format (Req'd) & Description & Example \\
+  \hline
+  \hline
+  \texttt{command}      & String (Y) &
+  The command that failed.                                      & message \\
+  \texttt{reason}       & String (Y) &
+  The reason the command failed.                                & No such user \\
+  \texttt{target}       & String (?) &
+  The target of the command, if applicable.                     & enfys \\
+  \texttt{client}       & String (Y) &
+  The name of the connected client that caused the error.       & laptop \\
+  \hline
+\end{tabular}
